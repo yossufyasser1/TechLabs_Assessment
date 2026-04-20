@@ -1,17 +1,15 @@
-# Core LLM
-anthropic>=0.40.0
+# Core LLM - Google Gemini (Free Tier + Fast)
+langchain-google-genai>=1.0.0
+langgraph>=0.0.30
 
 # Environment variables
 python-dotenv>=1.0.0
 
+# Dependencies for LangChain tools (replaces direct Pydantic calls)
+langchain-core>=0.2.0
+
 # Rich terminal UI
 rich>=13.0.0
-
-# Semantic search (bonus)
-openai>=1.0.0          # used only for embeddings via text-embedding-3-small
-
-# MCP server (bonus)
-mcp[cli]>=1.0.0
 
 # Tests
 pytest>=8.0.0
