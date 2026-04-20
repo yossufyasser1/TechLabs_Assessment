@@ -1,0 +1,17 @@
+# Core LLM
+anthropic>=0.40.0
+
+# Environment variables
+python-dotenv>=1.0.0
+
+# Rich terminal UI
+rich>=13.0.0
+
+# Semantic search (bonus)
+openai>=1.0.0          # used only for embeddings via text-embedding-3-small
+
+# MCP server (bonus)
+mcp[cli]>=1.0.0
+
+# Tests
+pytest>=8.0.0
