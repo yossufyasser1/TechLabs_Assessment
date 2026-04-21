@@ -6,28 +6,30 @@ and compiles the graph with in-memory checkpointing for multi-turn support.
 """
 
 from langchain_core.messages import SystemMessage
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_ollama import ChatOllama
 from langgraph.graph import StateGraph, START, MessagesState
 from langgraph.prebuilt import ToolNode, tools_condition
 from langgraph.checkpoint.memory import MemorySaver
 
-from src.config import MODEL_NAME, GOOGLE_API_KEY
+from src.config import MODEL_NAME, OLLAMA_BASE_URL
 from src.tools.registry import AGENT_TOOLS
 from src.agent.system_prompt import SYSTEM_PROMPT
 
 
 # ── LLM setup ────────────────────────────────────────────────
-llm = ChatGoogleGenerativeAI(
+llm = ChatOllama(
     model=MODEL_NAME,
-    google_api_key=GOOGLE_API_KEY,
+    base_url=OLLAMA_BASE_URL,
     temperature=0.0,  # deterministic — it's managing a database, not writing poetry
 )
 
 llm_with_tools = llm.bind_tools(AGENT_TOOLS)
 
 
+from langchain_core.runnables.config import RunnableConfig
+
 # ── Nodes ─────────────────────────────────────────────────────
-def chatbot_node(state: MessagesState, config: dict):
+def chatbot_node(state: MessagesState, config: RunnableConfig):
     """
     The LLM reasoning node.
     Prepends the system prompt, then calls the LLM with the full conversation.

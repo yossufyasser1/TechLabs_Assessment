@@ -1,0 +1,10 @@
+services:
+  notes-agent:
+    build: .
+    image: techlabs-notes-agent:latest
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./data:/app/data
+    env_file:
+      - .env

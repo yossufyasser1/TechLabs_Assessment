@@ -15,7 +15,6 @@ from rich.panel import Panel
 from rich.prompt import Prompt
 
 from src.agent import agent_executor
-from src.storage.database import NoteDatabase
 from src.config import DB_PATH
 
 console = Console()
@@ -24,7 +23,7 @@ console = Console()
 def print_welcome():
     console.print(Panel.fit(
         "[bold green]🗒️  Note-Taking Agent[/bold green]\n"
-        "[dim]Powered by Google Gemini + LangGraph[/dim]\n\n"
+        "[dim]Powered by Ollama (Llama 3.1) + LangGraph[/dim]\n\n"
         "Type your message to manage your notes.\n"
         "[dim]Commands: /quit · /clear · /history[/dim]",
         border_style="green"
@@ -40,7 +39,7 @@ def run(user_id: str = "default"):
     config = {
         "configurable": {
             "thread_id": thread_id,
-            "db": NoteDatabase(DB_PATH),
+            "db_path": DB_PATH,   # tools open their own per-thread connection
             "user_id": user_id,
         }
     }

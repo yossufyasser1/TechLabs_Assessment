@@ -39,6 +39,7 @@ class NoteDatabase:
 
     def __init__(self, db_path: str = "data/notes.db"):
         Path(db_path).parent.mkdir(parents=True, exist_ok=True)
+        self._db_path = db_path
         self.conn = sqlite3.connect(db_path)
         self.conn.row_factory = sqlite3.Row
         self._create_tables()
@@ -108,12 +109,12 @@ class NoteDatabase:
             (note_id, title, body, json.dumps(tags), user_id, now, now),
         )
         self.conn.commit()
-        return self.get(note_id)
+        return self.get(note_id, user_id)
 
-    def get(self, note_id: str) -> Optional[Note]:
-        """Get a note by ID. Returns None if not found."""
+    def get(self, note_id: str, user_id: str) -> Optional[Note]:
+        """Get a note by ID for a specific user."""
         row = self.conn.execute(
-            "SELECT * FROM notes WHERE id = ?", (note_id,)
+            "SELECT * FROM notes WHERE id = ? AND user_id = ?", (note_id, user_id)
         ).fetchone()
         return _row_to_note(row) if row else None
 
@@ -162,12 +163,13 @@ class NoteDatabase:
 
     def update(
         self,
+        user_id: str,
         note_id: str,
         title: Optional[str] = None,
         body: Optional[str] = None,
         tags: Optional[list[str]] = None,
     ) -> Optional[Note]:
-        note = self.get(note_id)
+        note = self.get(note_id, user_id)
         if not note:
             return None
 
@@ -177,14 +179,17 @@ class NoteDatabase:
         now = datetime.now(timezone.utc).isoformat()
 
         self.conn.execute(
-            "UPDATE notes SET title=?, body=?, tags=?, updated_at=? WHERE id=?",
-            (new_title, new_body, new_tags, now, note_id),
+            "UPDATE notes SET title=?, body=?, tags=?, updated_at=? WHERE id=? AND user_id=?",
+            (new_title, new_body, new_tags, now, note_id, user_id),
         )
         self.conn.commit()
-        return self.get(note_id)
+        return self.get(note_id, user_id)
 
-    def delete(self, note_id: str) -> bool:
-        cursor = self.conn.execute("DELETE FROM notes WHERE id = ?", (note_id,))
+    def delete(self, note_id: str, user_id: str) -> bool:
+        cursor = self.conn.execute(
+            "DELETE FROM notes WHERE id = ? AND user_id = ?",
+            (note_id, user_id),
+        )
         self.conn.commit()
         return cursor.rowcount > 0
 

@@ -10,8 +10,8 @@ from rich.console import Console
 from rich.table import Table
 
 from src.storage.database import NoteDatabase
-from tests.eval.scenarios import SCENARIOS
-from tests.eval.harness import run_scenario
+from evals.scenarios import SCENARIOS
+from evals.harness import run_scenario
 
 console = Console()
 

@@ -1,5 +1,5 @@
-# Core LLM - Google Gemini (Free Tier + Fast)
-langchain-google-genai>=1.0.0
+# Core LLM - Local Ollama (Zero Rate Limits, 100% Private)
+langchain-ollama>=0.2.0
 langgraph>=0.0.30
 
 # Environment variables
@@ -13,3 +13,9 @@ rich>=13.0.0
 
 # Tests
 pytest>=8.0.0
+
+# Protocol
+mcp>=1.0.0
+
+# Optional semantic search
+openai>=1.0.0

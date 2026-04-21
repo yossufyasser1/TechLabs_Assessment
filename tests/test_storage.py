@@ -11,7 +11,7 @@ def test_database_creation(temp_db):
 
 def test_database_get(temp_db):
     note = temp_db.create("A", "B", [], "u1")
-    retrieved = temp_db.get(note.id)
+    retrieved = temp_db.get(note.id, "u1")
     assert retrieved.title == "A"
     
 def test_database_list_filter(temp_db):
@@ -38,7 +38,7 @@ def test_database_fts_keyword(temp_db):
 
 def test_database_update(temp_db):
     note = temp_db.create("A", "B", ["t1"], "u1")
-    updated = temp_db.update(note.id, title="New", tags=["t2"])
+    updated = temp_db.update("u1", note.id, title="New", tags=["t2"])
     
     assert updated.title == "New"
     assert updated.body == "B"  # unchanged
@@ -46,8 +46,16 @@ def test_database_update(temp_db):
 
 def test_database_delete(temp_db):
     note = temp_db.create("A", "B", [], "u1")
-    assert temp_db.get(note.id) is not None
+    assert temp_db.get(note.id, "u1") is not None
     
-    res = temp_db.delete(note.id)
+    res = temp_db.delete(note.id, "u1")
     assert res is True
-    assert temp_db.get(note.id) is None
+    assert temp_db.get(note.id, "u1") is None
+
+
+def test_database_user_isolation_on_note_id_ops(temp_db):
+    note = temp_db.create("Private", "Body", [], "alice")
+    assert temp_db.get(note.id, "bob") is None
+    assert temp_db.update("bob", note.id, title="Nope") is None
+    assert temp_db.delete(note.id, "bob") is False
+    assert temp_db.get(note.id, "alice") is not None

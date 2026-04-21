@@ -6,7 +6,7 @@ import uuid
 from langchain_core.messages import HumanMessage, ToolMessage, AIMessage
 
 from src.agent.agent import agent_executor
-from tests.eval.scenarios import SCENARIOS
+from evals.scenarios import SCENARIOS
 
 class EvalResult:
     def __init__(self, scenario_id: int, name: str):

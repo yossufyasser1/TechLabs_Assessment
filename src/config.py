@@ -5,10 +5,10 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# We switched to Google Gemini for free, fast tool-calling inference
-GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", "")
+# We switched to Ollama for local execution (no internet or rate limits needed)
+OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 
-# Gemini 1.5 Flash is highly capable of tool calling and very fast/free
-MODEL_NAME = os.getenv("MODEL_NAME", "gemini-1.5-flash")
+# Using llama3.1 to ensure tool-calling capabilities exist locally
+MODEL_NAME = os.getenv("MODEL_NAME", "llama3.1")
 
 DB_PATH = os.getenv("DB_PATH", "data/notes.db")

@@ -15,21 +15,21 @@ def execute_list_notes(db: NoteDatabase, user_id: str, tag: str = None, keyword:
         return json.dumps({"results": [], "message": "No notes found matching your criteria."})
     return json.dumps([n.to_dict() for n in notes])
 
-def execute_get_note(db: NoteDatabase, note_id: str) -> str:
-    note = db.get(note_id)
+def execute_get_note(db: NoteDatabase, user_id: str, note_id: str) -> str:
+    note = db.get(note_id, user_id)
     if not note:
-        return json.dumps({"error": f"Note {note_id} not found."})
+        return json.dumps({"error": f"Note {note_id} not found. You MUST call list_notes_tool to find the correct valid ID."})
     return json.dumps(note.to_dict())
 
-def execute_update_note(db: NoteDatabase, note_id: str, title: str = None, body: str = None, tags: list[str] = None) -> str:
-    note = db.update(note_id, title=title, body=body, tags=tags)
+def execute_update_note(db: NoteDatabase, user_id: str, note_id: str, title: str = None, body: str = None, tags: list[str] = None) -> str:
+    note = db.update(user_id, note_id, title=title, body=body, tags=tags)
     if not note:
-        return json.dumps({"error": f"Note {note_id} not found."})
+        return json.dumps({"error": f"Note {note_id} not found. You MUST call list_notes_tool to verify valid note IDs before replying."})
     return json.dumps(note.to_dict())
 
-def execute_delete_note(db: NoteDatabase, note_id: str) -> str:
-    note = db.get(note_id)
+def execute_delete_note(db: NoteDatabase, user_id: str, note_id: str) -> str:
+    note = db.get(note_id, user_id)
     if not note:
-        return json.dumps({"error": f"Note {note_id} not found."})
-    db.delete(note_id)
+        return json.dumps({"error": f"Note {note_id} not found. You MUST call list_notes_tool to verify valid note IDs before replying."})
+    db.delete(note_id, user_id)
     return json.dumps({"deleted": True, "title": note.title})
