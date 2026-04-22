@@ -16,7 +16,7 @@ from evals.harness import run_scenario
 console = Console()
 
 def run_all_evaluations():
-    console.print("\n[bold cyan]🚀 Starting Agent Evaluation Harness...[/bold cyan]")
+    console.print("\n[bold cyan] Starting Agent Evaluation Harness...[/bold cyan]")
     
     # We use a temporary database for the evaluation
     db_path = "data/eval_test.db"
@@ -62,11 +62,11 @@ def run_all_evaluations():
     console.print(f"[bold red]Failed:[/bold red] {failed}")
     
     if pass_rate == 100:
-        console.print(f"[bold green]Pass Rate: {pass_rate:.1f}% 🎉[/bold green]\n")
+        console.print(f"[bold green]Pass Rate: {pass_rate:.1f}% [PASS][/bold green]\n")
     elif pass_rate > 80:
-        console.print(f"[bold yellow]Pass Rate: {pass_rate:.1f}% ⚠️[/bold yellow]\n")
+        console.print(f"[bold yellow]Pass Rate: {pass_rate:.1f}% [WARN][/bold yellow]\n")
     else:
-        console.print(f"[bold red]Pass Rate: {pass_rate:.1f}% ❌[/bold red]\n")
+        console.print(f"[bold red]Pass Rate: {pass_rate:.1f}% [FAIL][/bold red]\n")
 
 
 if __name__ == "__main__":

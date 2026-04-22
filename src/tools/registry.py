@@ -44,11 +44,11 @@ def create_note_tool(title: str, body: str, tags: list[str] = None, config: Runn
         db.close()
 
 @tool(args_schema=ListNotesSchema)
-def list_notes_tool(tag: str = None, keyword: str = None, date_from: str = None, date_to: str = None, config: RunnableConfig = None) -> str:
+def list_notes_tool(tag: str = None, keyword: str = None, semantic_query: str = None, date_from: str = None, date_to: str = None, config: RunnableConfig = None) -> str:
     """List or search notes using filters. Always use this to find notes before attempting updates/deletes."""
     db, user_id = _get_db_and_user(config)
     try:
-        return execute_list_notes(db, user_id, tag, keyword, date_from, date_to)
+        return execute_list_notes(db, user_id, tag, keyword, date_from, date_to, semantic_query)
     finally:
         db.close()
 

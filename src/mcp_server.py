@@ -31,10 +31,10 @@ def create_note(title: str, body: str, tags: list[str] = None) -> str:
         return execute_create_note(db, MCP_USER_ID, title, body, tags or [])
 
 @mcp.tool()
-def list_notes(tag: str = None, keyword: str = None, date_from: str = None, date_to: str = None) -> str:
+def list_notes(tag: str = None, keyword: str = None, semantic_query: str = None, date_from: str = None, date_to: str = None) -> str:
     """List or search notes using filters. Always use this to find notes before attempting updates/deletes."""
     with get_db() as db:
-        return execute_list_notes(db, MCP_USER_ID, tag, keyword, date_from, date_to)
+        return execute_list_notes(db, MCP_USER_ID, tag, keyword, date_from, date_to, semantic_query)
 
 @mcp.tool()
 def get_note(note_id: str) -> str:

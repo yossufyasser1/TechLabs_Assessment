@@ -13,7 +13,8 @@ class CreateNoteSchema(BaseModel):
 
 class ListNotesSchema(BaseModel):
     tag: Optional[str] = Field(None, description="Filter notes by an exact tag match")
-    keyword: Optional[str] = Field(None, description="Full-text search keyword or phrase to look for inside titles and bodies")
+    keyword: Optional[str] = Field(None, description="Full-text exact keyword phrase to look for inside titles and bodies")
+    semantic_query: Optional[str] = Field(None, description="Search notes by their underlying meaning or intent (semantic search via Ollama embeddings)")
     date_from: Optional[str] = Field(None, description="Show notes created on or after this date (ISO 8601 format)")
     date_to: Optional[str] = Field(None, description="Show notes created on or before this date (ISO 8601 format)")
 
