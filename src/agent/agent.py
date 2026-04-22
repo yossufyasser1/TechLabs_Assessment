@@ -11,17 +11,25 @@ from langgraph.graph import StateGraph, START, MessagesState
 from langgraph.prebuilt import ToolNode, tools_condition
 from langgraph.checkpoint.memory import MemorySaver
 
-from src.config import MODEL_NAME, OLLAMA_BASE_URL
+from src.config import MODEL_NAME, OLLAMA_BASE_URL, LLM_PROVIDER, OPENAI_API_KEY
 from src.tools.registry import AGENT_TOOLS
 from src.agent.system_prompt import SYSTEM_PROMPT
 
 
 # ── LLM setup ────────────────────────────────────────────────
-llm = ChatOllama(
-    model=MODEL_NAME,
-    base_url=OLLAMA_BASE_URL,
-    temperature=0.0,  # deterministic — it's managing a database, not writing poetry
-)
+if LLM_PROVIDER == "openai":
+    from langchain_openai import ChatOpenAI
+    llm = ChatOpenAI(
+        model=MODEL_NAME if MODEL_NAME != "llama3.1" else "gpt-4o-mini",
+        temperature=0.0,
+        api_key=OPENAI_API_KEY
+    )
+else:
+    llm = ChatOllama(
+        model=MODEL_NAME,
+        base_url=OLLAMA_BASE_URL,
+        temperature=0.0,  # deterministic — it's managing a database, not writing poetry
+    )
 
 llm_with_tools = llm.bind_tools(AGENT_TOOLS)
 

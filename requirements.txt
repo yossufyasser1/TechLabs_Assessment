@@ -2,6 +2,9 @@
 langchain-ollama>=0.2.0
 langgraph>=0.0.30
 
+# Optional Cloud LLMs (OpenAI, Anthropic)
+langchain-openai>=0.1.0
+
 # Environment variables
 python-dotenv>=1.0.0
 

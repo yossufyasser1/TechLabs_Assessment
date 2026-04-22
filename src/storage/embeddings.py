@@ -1,15 +1,14 @@
 """
-Fully local semantic search using Ollama Embeddings stored in SQLite.
+Semantic search using embeddings stored in SQLite.
 
-Embeds note text with Llama 3.1 and computes cosine
-similarity in pure Python avoiding external API dependency.
+By default uses local Ollama Embeddings, but can fallback
+to OpenAI embeddings if configured in the environment.
 """
 
 import math
 from typing import Optional
 
-from langchain_ollama import OllamaEmbeddings
-
+from src.config import LLM_PROVIDER, OPENAI_API_KEY
 from .database import NoteDatabase
 
 _embedder = None
@@ -18,7 +17,12 @@ def _get_embedder():
     global _embedder
     if _embedder is None:
         try:
-            _embedder = OllamaEmbeddings(model="llama3.1")
+            if LLM_PROVIDER == "openai":
+                from langchain_openai import OpenAIEmbeddings
+                _embedder = OpenAIEmbeddings(api_key=OPENAI_API_KEY)
+            else:
+                from langchain_ollama import OllamaEmbeddings
+                _embedder = OllamaEmbeddings(model="llama3.1")
         except Exception:
             return None
     return _embedder
