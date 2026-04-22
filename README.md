@@ -1,7 +1,6 @@
 # Conversational Note-Taking Agent
 
-An intelligent command-line chat agent that lets users manage personal notes entirely through natural language — built as part of the TechLabs London AI Engineer Technical Assessment.
-
+An intelligent command-line chat agent that lets users manage personal notes entirely through natural language
 ## Features
 
 | Feature | Details |
