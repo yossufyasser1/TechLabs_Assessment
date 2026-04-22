@@ -12,8 +12,7 @@ An intelligent command-line chat agent that lets users manage personal notes ent
 | **Destructive Action Guards** | Agent confirms before any delete |
 | **Local-First (Privacy)** | Default is 100% offline via Ollama. Also supports OpenAI via API Key |
 | **Evaluation Harness** | 15 automated conversational scenarios, pass/fail report |
-| **MCP Server** *(Bonus)* | Tools exposed via Model Context Protocol |
-| **Semantic Search** *(Bonus)* | Cosine similarity on Ollama or OpenAI embeddings |
+| **Semantic Search**  | Cosine similarity |
 
 ---
 
