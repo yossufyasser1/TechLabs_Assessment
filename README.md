@@ -78,7 +78,6 @@ src/
 ├── tools/
 │   ├── schemas.py        # Pydantic input schemas for each tool
 │   ├── note_tools.py     # Pure business logic (DB calls, no LLM coupling)
-│   └── registry.py       # LangChain @tool wrappers (thread-safe DB access)
 ├── storage/
 │   ├── database.py       # SQLite + FTS5 + triggers + user-scoped queries
 │   ├── models.py         # Note dataclass
